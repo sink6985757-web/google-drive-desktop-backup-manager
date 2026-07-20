@@ -1,0 +1,12 @@
+Backup_Config.json
+logs/
+state/
+config_backups/
+plans/
+manifests/
+99_recycle/
+*.log
+*.tmp
+*.bak
+*.zip
+!releases/**/*.zip
