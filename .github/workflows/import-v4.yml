@@ -1,0 +1,97 @@
+name: Import Google Drive Backup Manager v4
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  import-v4:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout standalone repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download the preserved v4 publication commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          OLD_REPO="sink6985757-web/woven-five-dimensional-learning-hub"
+          OLD_SHA="a6aea96d7a63c76ef0e4d3b9126ccf9008eea542"
+          curl --fail --location --retry 3 \
+            "https://github.com/${OLD_REPO}/archive/${OLD_SHA}.tar.gz" \
+            --output /tmp/woven-v4.tar.gz
+          mkdir -p /tmp/woven-v4
+          tar -xzf /tmp/woven-v4.tar.gz -C /tmp/woven-v4
+          SOURCE_DIR="$(find /tmp/woven-v4 -type d -path '*/tools/google-drive-backup-manager' -print -quit)"
+          test -n "$SOURCE_DIR"
+          test -f "$SOURCE_DIR/src/payload/Backup.ps1"
+          test -f "$SOURCE_DIR/src/Install.ps1"
+          echo "SOURCE_DIR=$SOURCE_DIR" >> "$GITHUB_ENV"
+
+      - name: Copy the standalone project files
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp -R "$SOURCE_DIR/src" ./src
+          cp -R "$SOURCE_DIR/releases" ./releases
+          cp "$SOURCE_DIR/CHANGELOG.md" ./CHANGELOG.md
+          cp "$SOURCE_DIR/SECURITY.md" ./SECURITY.md
+          cp "$SOURCE_DIR/INSTALL.md" ./INSTALL.md
+          cp "$SOURCE_DIR/VERSION" ./VERSION
+          cp "$SOURCE_DIR/.gitignore" ./.gitignore
+
+      - name: Rebuild and verify the original installer ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          RELEASE_DIR="releases/v4.0.0"
+          BASE64_DIR="$RELEASE_DIR/base64"
+          ZIP_PATH="$RELEASE_DIR/GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.0.zip"
+          EXPECTED="c681430422703f43858596a718ea0d6aefd278c2c687f11e37ab40f22008688d"
+          test "$(find "$BASE64_DIR" -maxdepth 1 -name 'installer.b64.*.txt' | wc -l)" -eq 10
+          cat "$BASE64_DIR"/installer.b64.*.txt | tr -d '[:space:]' | base64 --decode > "$ZIP_PATH"
+          ACTUAL="$(sha256sum "$ZIP_PATH" | awk '{print $1}')"
+          test "$ACTUAL" = "$EXPECTED"
+          printf '%s  %s\n' "$EXPECTED" "$(basename "$ZIP_PATH")" > "$RELEASE_DIR/SHA256SUMS.txt"
+
+      - name: Add standalone release documentation
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > releases/v4.0.0/README.md <<'EOF'
+          # Google Drive Desktop Backup Manager v4.0.0
+
+          正式安装包：
+
+          `GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.0.zip`
+
+          SHA-256：
+
+          `c681430422703f43858596a718ea0d6aefd278c2c687f11e37ab40f22008688d`
+
+          从 v3 升级时，请先执行安装包内的 `Verify_Package.cmd`，再执行 `Install.cmd`。只有全新安装或确定要重设时才使用 `Fresh_Install.cmd`。
+          EOF
+
+      - name: Remove temporary migration metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/import-v4.yml
+          rm -f src/PR_SUMMARY.md src/STATUS.md src/FILES.md src/VERIFY.md src/PUBLISH.md
+          rm -f src/READY_FOR_PR src/.publication-complete
+
+      - name: Commit the complete standalone v4 publication
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: publish Google Drive Backup Manager v4.0.0"
+          git push origin main
