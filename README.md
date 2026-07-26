@@ -2,7 +2,7 @@
 
 Windows 10／11 的本機資料夾備份與安全鏡像管理器，搭配 Google Drive for desktop 與 Windows 內建 Robocopy 使用。
 
-目前版本：**v4.0.0 — MirrorSafe**
+目前版本：**v4.0.1 — MirrorSafe Portable**
 
 ## 核心定位
 
@@ -10,6 +10,13 @@ Windows 10／11 的本機資料夾備份與安全鏡像管理器，搭配 Google
 - Google Drive 掛載資料夾是可復原的雲端備份目標。
 - 不把雲端端修改反向覆寫本機來源。
 - 不使用 Robocopy `/MIR` 或 `/PURGE` 直接刪除目標內容。
+- Repository、安裝包與文件不保存任何使用者名稱、私人磁碟路徑或 Google Drive 檔案清單。
+
+## 路徑表示方式
+
+文件中的 `<SourceFolder>`、`<GoogleDriveFolder>` 與 `<InstallFolder>` 都是占位符，不是要照字面建立的資料夾。
+
+備份工具執行時必須取得 Windows 完整路徑，但新安裝會透過資料夾選擇器取得，不再預設任何人的磁碟機或家目錄。程式安裝位置預設從 `%LOCALAPPDATA%` 動態解析；不應把某台電腦的固定絕對路徑提交到 repository。
 
 ## 兩種模式
 
@@ -49,54 +56,68 @@ Windows 10／11 的本機資料夾備份與安全鏡像管理器，搭配 Google
 <BackupRoot>\99_recycle\GDDM_MirrorSafe\<timestamp>_<PlanId>
 ```
 
-## 下載 v4.0.0
+## 新使用者安裝
 
-正式安裝包的完整內容保存在：
+### 需求
 
-[`releases/v4.0.0/base64/`](releases/v4.0.0/base64/)
+- Windows 10 或 11。
+- Windows PowerShell 5.1 以上。
+- Google 帳號；登入由 Google Drive 官方視窗處理。
+- 一個本機來源資料夾，以及 Google Drive for desktop 中不同且不重疊的目標資料夾。
 
-目前 GitHub 連接器無法直接寫入二進位 ZIP，因此原始安裝包拆成 16 個 Base64 片段；片段來自本次實際產生的 ZIP，並附一鍵還原與強制 SHA-256 驗證。
+### 下載與驗證 v4.0.1
 
-1. 下載完整的 `base64` 資料夾。
-2. 在 Windows PowerShell 進入該資料夾。
-3. 執行：
+從 [GitHub Releases](https://github.com/sink6985757-web/google-drive-desktop-backup-manager/releases/tag/v4.0.1) 下載：
+
+```text
+GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.1.zip
+```
+
+也可以從 repository 的 [`releases/v4.0.1/`](releases/v4.0.1/) 取得相同檔案與 SHA-256 清單。
+
+在下載資料夾執行：
 
 ```powershell
-Set-ExecutionPolicy -Scope Process Bypass
-.\Restore_Installer.ps1
+Get-FileHash .\GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.1.zip -Algorithm SHA256
 ```
 
-成功後會產生：
+將結果與 [`releases/v4.0.1/SHA256SUMS.txt`](releases/v4.0.1/SHA256SUMS.txt) 比對；不一致時不要解壓縮或執行。
 
-```text
-GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.0.zip
-```
+### 全新安裝
 
-SHA-256 必須為：
+1. 解壓縮 ZIP。
+2. 執行 `Verify_Package.cmd`。
+3. 執行 `Fresh_Install.cmd`。
+4. 在 Google 官方視窗完成登入。
+5. 用資料夾選擇器選擇 `<SourceFolder>` 與 `<GoogleDriveFolder>`。
+6. 第一次先保留 CopySafe，完成模擬後再決定是否執行正式備份。
+7. 確認 Google Drive 系統匣顯示同步完成。
 
-```text
-c681430422703f43858596a718ea0d6aefd278c2c687f11e37ab40f22008688d
-```
+只有沒有既有設定，或確定要完整重設時，才執行 `Fresh_Install.cmd`。
 
-片段缺漏、內容錯誤或雜湊不符時，還原腳本會刪除錯誤 ZIP 並停止。
-
-## 從 v3 升級
+### 從 v3 或 v4.0.0 升級
 
 1. 確認 Google Drive 系統匣顯示同步完成。
-2. 還原並解壓縮 v4 安裝包。
+2. 解壓縮 v4.0.1 ZIP。
 3. 執行 `Verify_Package.cmd`。
 4. 執行 `Install.cmd`，不要執行 `Fresh_Install.cmd`。
-5. 確認正式來源路徑，例如 `D:\NOTEd`。
-6. 升級後預設仍使用 CopySafe。
-7. 第一次 MirrorSafe 先預覽，再依 PlanId 手動執行。
+5. 安裝器會保留既有來源、目標、排程、日誌與狀態。
+6. 設定精靈中確認目前真正的來源與 Google Drive 目標。
+7. 升級後預設仍使用 CopySafe；第一次 MirrorSafe 先預覽，再依 PlanId 手動執行。
 
-安裝包內含完整 PowerShell 原始碼、安裝與升級程序、CopySafe／MirrorSafe 引擎、排程管理、回收區管理、解除安裝、繁體中文說明、Manifest、SHA-256 清單與靜態驗證報告。
+## v4.0.1 修正
 
-完整說明見 [INSTALL.md](INSTALL.md)、[CHANGELOG.md](CHANGELOG.md)、[SECURITY.md](SECURITY.md) 與 [v4.0.0 發布頁](releases/v4.0.0/README.md)。
+- 移除安裝精靈與說明中的個人磁碟路徑預設，改由使用者選擇資料夾。
+- 改用可直接下載與驗證的 ZIP，不再要求新使用者重組 Base64 片段。
+- 修正 v4.0.0 歷史 Base64 分段的完整性問題與 Windows PowerShell 編碼風險。
+- 保留 v4.0.0 的 CopySafe／MirrorSafe 行為與安全門檻，不改變設定 Schema。
 
 ## 重要限制
 
 - 這不是完全雙向同步工具。
 - Google Drive 的實際上傳、移動、版本與同步狀態仍由 Google Drive for desktop 負責。
 - 不要讓同一組資料夾同時由另一套鏡像工具管理。
-- 第一次正式 MirrorSafe 必須在實際 Windows 10／11 電腦驗證來源路徑、D 槽掛載、Robocopy 與 Google Drive 登入狀態。
+- 第一次正式 MirrorSafe 必須在實際 Windows 10／11 電腦驗證來源、目標、Robocopy 與 Google Drive 登入狀態。
+- `Backup_Config.json`、執行日誌、Manifest、Plan 與回收快照可能含私人路徑或檔名，不要提交到 GitHub。
+
+完整說明見 [INSTALL.md](INSTALL.md)、[CHANGELOG.md](CHANGELOG.md)、[SECURITY.md](SECURITY.md) 與 [v4.0.1 發布說明](releases/v4.0.1/README.md)。

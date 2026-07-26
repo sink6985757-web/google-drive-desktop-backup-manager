@@ -27,6 +27,8 @@
 
 储存库只保存公开程式、预设设定、安装封装与技术说明。
 
+公开文件统一使用 `<SourceFolder>`、`<GoogleDriveFolder>` 等占位符。备份程式在执行时仍必须取得 Windows 完整路径，但路径只能来自目前装置的资料夹选择器或本机设定，不得写入公开范例。
+
 ## Validation boundary
 
-v4.0.0 已完成静态结构、JSON、禁止危险参数与安全政策检查。Windows PowerShell 5.1、GoogleDriveFS、Robocopy 与工作排程器仍须在实际 Windows 10／11 电脑完成首次实机验证。
+v4.0.1 已完成静态结构、JSON、PowerShell 语法、封装完整性、禁止危险参数与安全政策检查。GoogleDriveFS、Robocopy 与工作排程器仍须在实际 Windows 10／11 电脑完成首次实机验证。
