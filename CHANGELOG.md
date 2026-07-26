@@ -1,5 +1,18 @@
 # Changelog
 
+## v4.0.2 — 2026-07-26
+
+### Fixed
+
+- 修正 `Invoke-Robocopy` 將 Robocopy 主控台輸出與 ExitCode 一起回傳，導致複製成功後仍可能誤報驗證失敗。
+- CopySafe 與 MirrorSafe 的執行後驗證現在只比較數值 ExitCode。
+
+### Validation
+
+- Windows 11、GoogleDriveFS、Robocopy 實機 CopySafe 驗證通過。
+- ValidateOnly、DryRun、正式複製、SHA-256 比對與工作排程器狀態檢查通過。
+- 實際安裝由 v4.0.0 升級至 v4.0.2，既有來源、目標、模式及排程設定均保留。
+
 ## v4.0.1 — 2026-07-26
 
 ### Changed
@@ -11,7 +24,7 @@
 
 ### Fixed
 
-- 修正 v4.0.0 Base64 分段多出字元，導致還原檔案與公告 SHA-256 不一致的問題。
+- 以可直接驗證的完整 ZIP 取代 v4.0.0 的異常 Base64 分段。
 - 避免 Windows PowerShell 5.1 解析無 BOM UTF-8 還原腳本時失敗。
 
 ## v4.0.0 — 2026-07-20

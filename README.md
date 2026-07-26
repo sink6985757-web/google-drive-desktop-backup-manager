@@ -2,7 +2,7 @@
 
 Windows 10／11 的本機資料夾備份與安全鏡像管理器，搭配 Google Drive for desktop 與 Windows 內建 Robocopy 使用。
 
-目前版本：**v4.0.1 — MirrorSafe Portable**
+目前版本：**v4.0.2 — MirrorSafe Portable**
 
 ## 核心定位
 
@@ -65,23 +65,23 @@ Windows 10／11 的本機資料夾備份與安全鏡像管理器，搭配 Google
 - Google 帳號；登入由 Google Drive 官方視窗處理。
 - 一個本機來源資料夾，以及 Google Drive for desktop 中不同且不重疊的目標資料夾。
 
-### 下載與驗證 v4.0.1
+### 下載與驗證 v4.0.2
 
-從 [GitHub Releases](https://github.com/sink6985757-web/google-drive-desktop-backup-manager/releases/tag/v4.0.1) 下載：
+從 [GitHub Releases](https://github.com/sink6985757-web/google-drive-desktop-backup-manager/releases/tag/v4.0.2) 下載：
 
 ```text
-GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.1.zip
+GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.2.zip
 ```
 
-也可以從 repository 的 [`releases/v4.0.1/`](releases/v4.0.1/) 取得相同檔案與 SHA-256 清單。
+也可以從 repository 的 [`releases/v4.0.2/`](releases/v4.0.2/) 取得相同檔案與 SHA-256 清單。
 
 在下載資料夾執行：
 
 ```powershell
-Get-FileHash .\GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.1.zip -Algorithm SHA256
+Get-FileHash .\GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.2.zip -Algorithm SHA256
 ```
 
-將結果與 [`releases/v4.0.1/SHA256SUMS.txt`](releases/v4.0.1/SHA256SUMS.txt) 比對；不一致時不要解壓縮或執行。
+將結果與 [`releases/v4.0.2/SHA256SUMS.txt`](releases/v4.0.2/SHA256SUMS.txt) 比對；不一致時不要解壓縮或執行。
 
 ### 全新安裝
 
@@ -95,15 +95,21 @@ Get-FileHash .\GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.1.zip -Al
 
 只有沒有既有設定，或確定要完整重設時，才執行 `Fresh_Install.cmd`。
 
-### 從 v3 或 v4.0.0 升級
+### 從 v3、v4.0.0 或 v4.0.1 升級
 
 1. 確認 Google Drive 系統匣顯示同步完成。
-2. 解壓縮 v4.0.1 ZIP。
+2. 解壓縮 v4.0.2 ZIP。
 3. 執行 `Verify_Package.cmd`。
 4. 執行 `Install.cmd`，不要執行 `Fresh_Install.cmd`。
 5. 安裝器會保留既有來源、目標、排程、日誌與狀態。
 6. 設定精靈中確認目前真正的來源與 Google Drive 目標。
 7. 升級後預設仍使用 CopySafe；第一次 MirrorSafe 先預覽，再依 PlanId 手動執行。
+
+## v4.0.2 修正
+
+- 修正 CopySafe／MirrorSafe 執行後驗證的 Robocopy 回傳值處理。
+- 避免檔案已成功複製且一致時，因 Robocopy 主控台輸出混入回傳值而誤報失敗。
+- 已在 Windows 11、已登入的 Google Drive for desktop、Robocopy 與既有工作排程器環境完成實機 CopySafe 驗證。
 
 ## v4.0.1 修正
 
@@ -120,4 +126,4 @@ Get-FileHash .\GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.1.zip -Al
 - 第一次正式 MirrorSafe 必須在實際 Windows 10／11 電腦驗證來源、目標、Robocopy 與 Google Drive 登入狀態。
 - `Backup_Config.json`、執行日誌、Manifest、Plan 與回收快照可能含私人路徑或檔名，不要提交到 GitHub。
 
-完整說明見 [INSTALL.md](INSTALL.md)、[CHANGELOG.md](CHANGELOG.md)、[SECURITY.md](SECURITY.md) 與 [v4.0.1 發布說明](releases/v4.0.1/README.md)。
+完整說明見 [INSTALL.md](INSTALL.md)、[CHANGELOG.md](CHANGELOG.md)、[SECURITY.md](SECURITY.md) 與 [v4.0.2 發布說明](releases/v4.0.2/README.md)。

@@ -31,4 +31,4 @@
 
 ## Validation boundary
 
-v4.0.1 已完成静态结构、JSON、PowerShell 语法、封装完整性、禁止危险参数与安全政策检查。GoogleDriveFS、Robocopy 与工作排程器仍须在实际 Windows 10／11 电脑完成首次实机验证。
+v4.0.2 已完成静态结构、JSON、PowerShell 语法、封装完整性、禁止危险参数与安全政策检查，并在 Windows 11 的已登入 Google Drive for desktop、Robocopy 与既有工作排程器环境完成 CopySafe 实机验证。互动式首次设定与使用者核准的 MirrorSafe 正式执行仍应在每一台新装置先预览再操作。
