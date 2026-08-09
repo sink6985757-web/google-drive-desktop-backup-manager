@@ -35,5 +35,5 @@
 
 - 上述 v4.0.2 與排程證據保留；Obsidian 行只作歷史證據，不再是收工要求。
 - 已更新 AGENTS／README／CHANGELOG；未執行備份、MirrorSafe、排程、安裝或 purge。
-- GitHub：`LOCAL_ONLY`。
-- 唯一續跑點：完成治理 diff 驗證後，再另行確認 runtime 排程檢查。
+- GitHub：治理 commit `a8ac6ffa49a697509c6c427ea20e3b49faa412d1` 已推送 `main` 並回讀一致。
+- 唯一續跑點：另行確認後，只讀檢查下一次 runtime 排程結果；本輪未執行備份或 MirrorSafe。

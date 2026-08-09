@@ -12,7 +12,7 @@
 
 ### Delivery
 
-- GitHub：`LOCAL_ONLY`
+- GitHub：`VERIFIED`，治理 commit `a8ac6ffa49a697509c6c427ea20e3b49faa412d1` 已推送 `main` 並回讀一致。
 
 ## v4.0.2 — 2026-07-26
 
