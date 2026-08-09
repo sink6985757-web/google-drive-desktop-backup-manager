@@ -1,37 +1,30 @@
 # google-drive-desktop-backup-manager
 
 ## 目標
-提供 Windows 10／11 的本機資料夾備份與安全鏡像管理器，以本機來源作為唯一正式母資料，搭配 Google Drive for desktop 與 Robocopy 建立可復原且不直接永久刪除目標內容的備份流程。
 
-## 路線圖
-- [x] 建立保守的 CopySafe 日常備份模式。
-- [x] 建立含預覽、PlanId、安全門檻與回收區的 MirrorSafe 模式。
-- [x] 移除公開文件與安裝包中的裝置專屬路徑。
-- [x] 發布並驗證 MirrorSafe Portable v4.0.2。
-- [ ] 正常排程執行下一次自動 MirrorSafe 後，只讀確認 `LastTaskResult=0`。
+提供 Windows 本機資料夾備份與安全鏡像管理器；本機來源是唯一母資料，Google Drive for desktop 是可回復備份目標。
 
 ## 專案結構
-- `README.md`：使用模式、安裝、升級與 v4.0.2 入口。
-- `INSTALL.md`：完整安裝與設定流程。
-- `SECURITY.md`：資料權威、破壞性操作防護與驗證邊界。
-- `CHANGELOG.md`：版本更動。
-- `VERSION`：目前版本。
-- `releases/v4.0.2/`：正式安裝 ZIP、SHA-256 與發布說明。
-- `AGENTS.md`：穩定的治理規則與安全邊界。
-- `handoff.md`：最近一次工作交接。
+
+- `README.md`、`INSTALL.md`、`SECURITY.md`：使用、安裝與安全契約。
+- `CHANGELOG.md`、`VERSION`：每次收工變更與正式版本。
+- `releases/`：已發布安裝包、SHA-256 與說明。
+- `handoff.md`：目前排程驗證與唯一續跑點。
 
 ## 共用規則
-1. 每個 Agent 開工先讀本檔與 `handoff.md`。
-2. 保留既有修改；不提交 secret、credential 或未知檔案。
-3. 所有 canonical 路徑使用專案相對路徑。
-4. 本機來源資料夾是唯一正式母資料；Google Drive 掛載資料夾只作可復原備份目標，禁止反向覆寫來源。
-5. CopySafe 是預設日常模式；MirrorSafe 必須先預覽、核對有效 PlanId，並通過項目數、比例、容量、來源非空與路徑不重疊等安全門檻。
-6. 不得直接使用 Robocopy `/MIR` 或 `/PURGE`；目標端額外項目必須先移入日期化 `99_recycle`。
-7. 自動 MirrorSafe 與永久清理回收區分別需要明確確認字串；未經工作單不得觸發備份、MirrorSafe、排程、安裝或 purge。
-8. 實際來源、目標與安裝位置只在 runtime 從資料夾選擇器或本機設定解析，不寫入公開文件。
-9. `Backup_Config.json`、日誌、Manifest、Plan、回收快照及私人路徑或檔名不得提交。
-10. 開工只讀；收工才更新交接、GitHub 與 Obsidian。
+
+1. 開工只讀本檔、`handoff.md` 與 Git 狀態。
+2. 保留既有修改；不提交 secret、credential、私人備份資料或未知檔案。
+3. canonical 路徑使用專案相對路徑；實際來源與目標只在 runtime 解析。
+4. Google Drive 目標禁止反向覆寫本機來源。
+5. CopySafe 是預設；MirrorSafe 必須先預覽、核對 PlanId 並通過安全門檻。
+6. 不直接使用 Robocopy `/MIR` 或 `/PURGE`；目標額外項目先進日期化 `99_recycle`。
+7. 每次收工更新 `CHANGELOG.md` 與 `handoff.md`；GitHub delivery 前更新 README。
+8. 備份執行、MirrorSafe、排程、安裝、purge、commit、push 與 release 須由工作單／ReadyGate 放行。
+9. 外部知識庫一律 `ON_DEMAND_ONLY`，不屬於 initial／startup／shutdown。
 
 ## 整合
-- GitHub：[sink6985757-web/google-drive-desktop-backup-manager](https://github.com/sink6985757-web/google-drive-desktop-backup-manager)（public）
-- Obsidian：`google-drive-desktop-backup-manager/專案工作流程.md`
+
+- GitHub：public `sink6985757-web/google-drive-desktop-backup-manager`
+- Google Drive Desktop：備份目標層
+- 外部知識庫：`ON_DEMAND_ONLY`

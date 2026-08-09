@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased — 2026-08-09
+
+### Changed
+
+- 對齊四檔生命週期、README delivery 規則與外部知識庫獨立邊界。
+
+### Validation
+
+- 本輪只更新治理文件；未執行備份、MirrorSafe、排程或安裝。
+
+### Delivery
+
+- GitHub：`LOCAL_ONLY`
+
 ## v4.0.2 — 2026-07-26
 
 ### Fixed

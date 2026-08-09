@@ -30,3 +30,10 @@
 - 成果 commit：本檔所在治理 commit
 - Git push：`origin/main`（以交付時的遠端 HEAD 回讀為準）
 - Obsidian：VERIFIED（本次只讀）
+
+## 2026-08-09 生命週期權威更新
+
+- 上述 v4.0.2 與排程證據保留；Obsidian 行只作歷史證據，不再是收工要求。
+- 已更新 AGENTS／README／CHANGELOG；未執行備份、MirrorSafe、排程、安裝或 purge。
+- GitHub：`LOCAL_ONLY`。
+- 唯一續跑點：完成治理 diff 驗證後，再另行確認 runtime 排程檢查。

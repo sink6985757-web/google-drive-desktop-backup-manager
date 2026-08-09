@@ -127,3 +127,10 @@ Get-FileHash .\GoogleDrive_Desktop_Backup_Manager_Total_Installer_v4.0.2.zip -Al
 - `Backup_Config.json`、執行日誌、Manifest、Plan 與回收快照可能含私人路徑或檔名，不要提交到 GitHub。
 
 完整說明見 [INSTALL.md](INSTALL.md)、[CHANGELOG.md](CHANGELOG.md)、[SECURITY.md](SECURITY.md) 與 [v4.0.2 發布說明](releases/v4.0.2/README.md)。
+
+## Agent workflow 與版本紀錄
+
+- GitHub canonical：`sink6985757-web/google-drive-desktop-backup-manager`。
+- 本 README 是人類與 Agent／Tool 的安裝、使用、版本與公開文案；CHANGELOG 每次收工追加目前修改與 delivery 狀態。
+- GitHub delivery 前更新本 README；備份、MirrorSafe、排程、安裝與 purge 仍需各自工作單。
+- 外部知識庫為 `ON_DEMAND_ONLY`，不屬於 initial／startup／shutdown。
