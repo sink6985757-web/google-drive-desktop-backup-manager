@@ -1,39 +1,21 @@
 # Handoff
 
-## 目前做到哪
-1. **MirrorSafe Portable v4.0.2 已發布**：延續 CopySafe／MirrorSafe、安全門檻與 Schema 4，並修正 Robocopy 主控台輸出混入 ExitCode 所造成的驗證誤判。
-2. **發布證據已回讀**：治理修復前 `main`、本機 tag `v4.0.2` 與遠端 tag 均指向 commit `8309f58f07a86e0636715638fae8873f15d14b7d`；正式 ZIP 的 SHA-256 為 `bce7fcb0ef027c1a854fd8d5c26513fedbbd1281188bcb2f6b9d865b4ea14474`，與 `SHA256SUMS.txt` 一致。
-3. **正式治理文件已建立**：補齊 CopySafe／MirrorSafe、`99_recycle`、安全門檻、禁止直接 `/MIR`／`/PURGE` 與 runtime 路徑邊界；本次未執行備份、MirrorSafe、排程、安裝或發布。
-
 ## 目前狀態
-- 可使用：是（v4.0.2）
-- 既有驗證：安裝包 23 個檔案、JSON／PowerShell 語法、危險參數、Windows 11 CopySafe 實機與檔案雜湊驗證皆已有通過紀錄
-- 本次驗證：`main`／tag／遠端 tag 對齊、正式 ZIP SHA-256、治理結構、敏感資訊與相對路徑檢查
-- 未完成：現有自動 MirrorSafe 排程下次正常執行後，只需確認 `LastTaskResult=0`
 
-## 下一步
-1. 等待既有排程自然執行，之後只讀確認 `LastTaskResult=0`；不得為了驗證而手動觸發正式 MirrorSafe。
-2. 新裝置或新資料夾第一次使用 MirrorSafe 時，先產生預覽、核對 PlanId 與安全門檻，再由使用者明確批准。
-3. 安裝包雜湊不一致時停止，不解壓縮、不安裝。
+- 更新：2026-09-05，Codex；工作單 `WO-DRIVE-GITHUB-ALIGN-20260905-v2` 已確認。
+- 保留 MirrorSafe Portable v4.0.2、CopySafe 預設與單向備份契約；更新 manual checkpoint 與收工續跑點。
+- 驗證：Git root／remote identity、四檔與 manifest schema、相對連結及 diff whitespace 檢查；程式與 runtime 未變，不將歷史實機測試標為本輪重跑。
+- GitHub：`sink6985757-web/google-drive-desktop-backup-manager`，default branch `main`。本輪成果以本文件所在 commit 識別；完成非 force push 後，以 `git ls-remote origin refs/heads/main` 與 GitHub API 回讀核對。
+- Checkpoint：`manual`；三個 authority immutable SHA 已寫入 `.agents/project-lifecycle.json`，不啟用 standing_scoped。
 
-## 注意事項
-- 本機來源是唯一正式母資料；本工具不是雙向同步。
-- 不得直接使用 Robocopy `/MIR` 或 `/PURGE`。
-- 目標端額外項目應移入 `99_recycle`，永久清理必須另行確認。
-- `Backup_Config.json`、日誌、Manifest、Plan、回收快照與私人路徑或檔名不得提交。
-- 本次沒有執行正式備份、MirrorSafe、排程觸發、安裝或新 Release。
+## 風險與保留
 
-## 最近更新
-- 時間：2026-07-29 20:29 +08:00
-- 更新者：Codex
-- 電腦：YULIN-SFG16-72
-- 成果 commit：本檔所在治理 commit
-- Git push：`origin/main`（以交付時的遠端 HEAD 回讀為準）
-- Obsidian：VERIFIED（本次只讀）
+本輪不觸發備份／MirrorSafe、不安裝、不 purge 或修改排程。既有排程的 LastTaskResult=0 仍需在原裝置自然執行後回讀。來源是母資料，Drive 是目標；禁止直接 /MIR／/PURGE，额外項目先入 99_recycle。
 
-## 2026-08-09 生命週期權威更新
+既有測試與版本歷史查閱 CHANGELOG／Git；沒有本輪執行的裝置、安裝、部署或帳號驗證不得視為重新通過。
 
-- 上述 v4.0.2 與排程證據保留；Obsidian 行只作歷史證據，不再是收工要求。
-- 已更新 AGENTS／README／CHANGELOG；未執行備份、MirrorSafe、排程、安裝或 purge。
-- GitHub：治理 commit `a8ac6ffa49a697509c6c427ea20e3b49faa412d1` 已推送 `main` 並回讀一致。
-- 唯一續跑點：另行確認後，只讀檢查下一次 runtime 排程結果；本輪未執行備份或 MirrorSafe。
+## 唯一續跑點
+
+在既有排程下一次自然執行後唯讀確認結果；新裝置第一次 MirrorSafe 仍先預覽、核對 PlanId 與明確批准。
+
+跨裝置接續先讀 manifest、AGENTS、本檔與 Git 狀態，fetch 並比較 default branch。GitHub SHA 回讀與 Drive 雲端回讀分別記錄；若任一未完成，保留該項 PARTIAL，不推論整體已同步。

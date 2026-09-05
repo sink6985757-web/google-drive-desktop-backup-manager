@@ -28,3 +28,12 @@
 - GitHub：public `sink6985757-web/google-drive-desktop-backup-manager`
 - Google Drive Desktop：備份目標層
 - 外部知識庫：`ON_DEMAND_ONLY`
+
+## Portable lifecycle 維護契約
+
+- 專案：`sink6985757-web/google-drive-desktop-backup-manager`；default branch：`main`；Git root 必須是本 repository。
+- 依 `.agents/project-lifecycle.json` 使用 manual checkpoint；authority pin 指向已回讀的治理來源。
+- Startup 只讀文件與 Git，fetch 後同時確認 upstream／default branch；不得用工作 branch 已同步冒充 default branch 已包含成果。
+- Shutdown 每次更新 CHANGELOG／handoff；README 隨人類安裝、使用或版本變化更新。
+- 本次已確認工作單的授權沿用至其範圍完成；不得擴張到 tag／Release、權限、刪除或封存。
+- 本輪不觸發備份／MirrorSafe、不安裝、不 purge 或修改排程。既有排程的 LastTaskResult=0 仍需在原裝置自然執行後回讀。來源是母資料，Drive 是目標；禁止直接 /MIR／/PURGE，额外項目先入 99_recycle。

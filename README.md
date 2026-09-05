@@ -1,5 +1,18 @@
 # Google Drive Desktop Backup Manager
 
+## 2026-09-05 更新
+
+保留 MirrorSafe Portable v4.0.2、CopySafe 預設與單向備份契約；更新 manual checkpoint 與收工續跑點。
+
+## 開工與收工
+
+1. 首次使用或治理缺件才執行 `initial`；既有專案平日直接 `startup`。
+2. 開工讀取 [manifest](.agents/project-lifecycle.json)、[AGENTS.md](AGENTS.md)、[handoff.md](handoff.md)，確認 Git root 與 `origin`，fetch 後分別比較目前 upstream 和 default branch `main`。fetch 不會同步工作樹。
+3. 在已確認範圍內修改與驗證。未提交內容、版本分叉與 unknown untracked 先保全、辨識，不直接覆蓋或整包 stage。
+4. 收工更新 [CHANGELOG.md](CHANGELOG.md) 與 handoff；使用 `manual` checkpoint，沿用當次已確認工作單的 commit／push 授權。只有遠端 SHA 回讀一致才算 GitHub 同步完成；Drive 同步另行回讀。
+
+固定 authority commit、專案 identity 與窄範圍文件 allowlist 見 manifest。一般開工不執行安裝、部署或外部帳號動作；既有 tag／Release、封存來源與私人設定依各自邊界維持。
+
 Windows 10／11 的本機資料夾備份與安全鏡像管理器，搭配 Google Drive for desktop 與 Windows 內建 Robocopy 使用。
 
 目前版本：**v4.0.2 — MirrorSafe Portable**

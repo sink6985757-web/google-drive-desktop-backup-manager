@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased] - 2026-09-05
+
+- `WO-DRIVE-GITHUB-ALIGN-20260905-v2`：保留 MirrorSafe Portable v4.0.2、CopySafe 預設與單向備份契約；更新 manual checkpoint 與收工續跑點。
+- 建立／對齊 portable manual manifest，區分工作 branch、GitHub default branch 與 Drive 同步。
+- 驗證：Git root／remote identity、四檔與 manifest schema、相對連結及 diff whitespace 檢查；程式與 runtime 未變，不將歷史實機測試標為本輪重跑。
+- 本輪為 source／文件 checkpoint；不新增 tag／Release。
+
 ## Unreleased — 2026-08-09
 
 ### Changed
